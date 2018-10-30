@@ -8,57 +8,73 @@ import { FormBuilder}  from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'apppro';
-  images = [];
-  msg;
-  userForm;
+  productForm;
+  pList = [];
+  response:any;
+  ID;
   constructor(
-    private http: HttpClient,
-    private fb: FormBuilder
-  ){
+    
+    private y: FormBuilder,
+    private a: HttpClient
+    ){
 
-    this.http
-      .get('https://dog.ceo/api/breeds/image/random/50')
-      .subscribe(
-        (data)=>{
-          console.log(data);
-          this.images = data.message;
-          this.msg  = '';
-        },
-        (err)=>{
-          //error
-          console.log(err);
-          this.msg = "Something is wrong; Please try again";
-        },
-        ()=>{
-          //complete
-          console.log("Completed");
-        }
-      );
-
-
-      this.userForm = this.fb.group({
-        name: [],
-        age: [],
-        parents: this.fb.group({
-          mother: [],
-          father: ['', []]
-        }),
-        skills: this.fb.array([])
+      this.productForm = this.y.group({
+        id: [],
+        name: ['Macbook'],
+        price: []
       })
 
+      this.a.get('http://localhost:8900/products')
+      .subscribe(
+        (res:any)=>{
+          console.log(res);
+          this.pList = res.data;
+          this.response =res;
+        },
+        ()=>{
 
+        },
+        ()=>{
 
+        }
+      )
+  }
+
+  collectData(){
+    console.log(this.productForm.value);
+
+    this.a.post('http://localhost:8900/users', this.productForm.value)
+    .subscribe(
+      (res)=>{
+        console.log(res);
+        this.pList.push(this.productForm.value)
+      },
+      (err)=>{
+        console.log(err);
+      },
+      ()=>{
+
+      }
+    )
 
   }
 
 
-  postData(){
-    this.http.post('http://localhost:8900/users', this.userForm.value)
+  deleteRec(id){
+    this.ID  =id;
+    console.log('http://localhost:8900/products/' + id)
+    console.log(`http://localhost:8900/prodcust/${id}`)
+    this.a.delete(`http://localhost:8900/products/${id}`)
     .subscribe(
-      res =>{ console.log(res)},
-      err => {console.log(err)},
-      ()=> {console.log("Completed")}
+      res => {
+        console.log(res);
+        let list = [];
+      }
     )
+  }
+
+  giveId(){
+
+    return 10
   }
 }

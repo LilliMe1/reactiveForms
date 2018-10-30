@@ -1,14 +1,75 @@
+<table [formGroup]="productForm">
+  <tr>
+    <td>
+      Name
+    </td>
+    <td>
+      <input type="text" formControlName="name">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Id
+    </td>
+    <td>
+      <input type="text" formControlName="id">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Price
+    </td>
+    <td>
+      <input type="text" formControlName="price">
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <button (click)="collectData()">Click</button>
+    </td>
+  </tr>
+</table>
 
-{{msg}}
-<!-- <ul>
-  <li *ngFor="let x of images">
-    <img src="{{x}}" alt="">
+
+
+<ul>
+  <li *ngFor="let p of pList">
+    {{
+      p | json
+    }}
   </li>
-</ul> -->
+</ul>
 
 
-<form [formGroup]="userForm">
-  <input type="text" formControlName="name"/>
-  <input type="text" formControlName="age">
-  <button (click)="postData()">Click</button>
-</form>
+<table>
+  <thead>
+    <tr>
+      <th>
+        id
+      </th>
+      <th>
+        name
+      </th>
+      <th>
+        price
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let list of pList; let i = index">
+      <td>
+        {{list.id}}
+      </td>
+      <td>
+        {{list.name}}
+      </td>
+      <td>
+        {{list.price}}
+      </td>
+      <td>
+        <button (click)="deleteRec(i)"> Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
